@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>全渠道订单自助分析看板</title>
+    <title>订单自助分析看板</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -813,12 +813,12 @@
             margin-top: 8px;
         }
         .heatmap-wrapper .map-area {
-            flex: 1;
+            flex: 0 0 60%;
             min-height: 650px;
         }
         .heatmap-wrapper .rankings-panel {
-            width: 240px;
-            flex-shrink: 0;
+            flex: 1 1 40%;
+            min-width: 240px;
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -864,7 +864,160 @@
         .rank-item .rank-name { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         .rank-item .rank-val { font-weight:600; color:#1e293b; white-space:nowrap; }
         .rank-item .rank-sub { font-size:0.72rem; color:#94a3b8; }
+        .rank-select {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #1e466e;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+        .rank-select:focus { border-color: #2563eb; }
+
     
+        .zoom-control {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-right: 8px;
+        }
+        .zoom-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: #64748b;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .zoom-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
+        .zoom-input {
+            width: 52px;
+            padding: 4px 4px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            color: #475569;
+            text-align: center;
+            font-weight: 600;
+            background: #fff;
+            outline: none;
+        }
+        .zoom-input:focus { border-color: #2563eb; }
+        .pagination-bar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 6px 2px;
+            justify-content: center;
+        }
+        .page-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            color: #475569;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+        .page-btn:hover { background: #f1f5f9; border-color: #94a3b8; }
+        .page-input {
+            width: 28px;
+            padding: 2px 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            color: #1e293b;
+            text-align: center;
+            outline: none;
+        }
+        .page-input:focus { border-color: #2563eb; }
+        .product-filter-btns {
+            display: inline-flex;
+            gap: 4px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .product-filter-btns .filter-btn {
+            padding: 2px 8px;
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.15s;
+            line-height: 1.4;
+        }
+        .product-filter-btns .filter-btn:hover { background: #f1f5f9; }
+        .product-filter-btns .filter-btn.active { background: #1e466e; color: #fff; border-color: #1e466e; }
+
+        .page-total {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+        .city-chart {
+            margin-top: 14px;
+            border-top: 1px solid #e2e8f0;
+            padding: 10px 6px 2px;
+        }
+        .city-chart-title {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #1e466e;
+            margin-bottom: 8px;
+        }
+        .city-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 0;
+            font-size: 0.72rem;
+        }
+        .city-bar-name {
+            width: 54px;
+            flex-shrink: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #475569;
+            text-align: right;
+        }
+        .city-bar-track {
+            flex: 1;
+            height: 14px;
+            background: #f1f5f9;
+            border-radius: 7px;
+            overflow: hidden;
+        }
+        .city-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #93c5fd, #2563eb);
+            border-radius: 7px;
+            transition: width 0.3s;
+        }
+        .city-bar-val {
+            width: 44px;
+            flex-shrink: 0;
+            text-align: right;
+            font-weight: 600;
+            color: #1e293b;
+        }
     </style>
 </head>
 <body>
@@ -978,15 +1131,29 @@
                 <div class="card-header">
                     <div class="card-header-left"><i class="fas fa-fire"></i> 订单热力图</div>
                     <div class="filter-bar">
+                        <div class="zoom-control">
+                            <button class="zoom-btn" onclick="mapZoomOut()" title="缩小"><i class="fas fa-minus"></i></button>
+                            <input type="text" class="zoom-input" id="zoomLevelDisplay" value="165%" onchange="setMapZoom(this.value)" title="输入缩放比率（0-1000%）">
+                            <button class="zoom-btn" onclick="mapZoomIn()" title="放大"><i class="fas fa-plus"></i></button>
+                        </div>
                         <button id="backToNationalBtn" class="reset-btn" style="display:none;padding:6px 14px;font-size:0.8rem;" onclick="backToNationalMap()"><i class="fas fa-arrow-left"></i> 返回全国地图</button>
                     </div>
                 </div>
                 <div class="heatmap-wrapper">
                     <div id="heatmapContainer" class="map-area"></div>
                     <div id="rankingsPanel" class="rankings-panel">
-                        <div class="rank-box" id="rankBox1"><h4 id="rankTitle1">🏆 省份榜</h4><div id="rankList1"></div></div>
-                        <div class="rank-box" id="rankBox2"><h4 id="rankTitle2">🏪 门店榜</h4><div id="rankList2"></div></div>
-                        <div class="rank-box" id="rankBox3"><h4 id="rankTitle3">📦 商品榜</h4><div id="rankList3"></div></div>
+                        <div style="margin-bottom:10px;">
+                            <select id="rankSelect" class="rank-select" onchange="switchRankingTab(this.value)">
+                                <option value="province">🏆 省份榜</option>
+                                <option value="store">🏪 门店榜</option>
+                                <option value="product" selected>📦 商品榜</option>
+                                <option value="spec">📋 规格榜</option>
+                            </select>
+                        </div>
+                        <div class="rank-box" id="rankBoxSingle">
+                            <h4 id="rankTitleSingle">📦 商品榜</h4>
+                            <div id="rankListSingle"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1673,7 +1840,13 @@
             let heatmapChart = null;
             let currentMapLevel = "national"; // "national" | "province"
             let currentMapProvince = "";
+            let currentMapZoom = 1.65;
+            let productPage = 1;
+            let productFilter = "all";
             let allOrdersForHeatmap = [];
+            let currentRankingTab = "product";
+            let lastRankingState = {};
+            let heatmapFilter = null;
 
             function initHeatmap(orders) {
                 allOrdersForHeatmap = orders;
@@ -1733,7 +1906,7 @@
 
                 heatmapChart = echarts.init(container);
                 heatmapChart.setOption({
-                    title: { text: "全国订单热力图", left: "center", textStyle: { fontSize: 16, fontWeight: 600, color: "#1e466e" } },
+                    title: { text: heatmapFilter ? heatmapFilter.value + " - 全国订单热力图" : "全国订单热力图", left: "center", textStyle: { fontSize: 16, fontWeight: 600, color: "#1e466e" } },
                     tooltip: {
                         trigger: "item",
                         formatter: function(p) {
@@ -1756,8 +1929,10 @@
                         type: "map",
                         map: "china",
                         roam: true,
+                        center: [104, 35],
+                        zoom: currentMapZoom,
                         selectedMode: false,
-                        label: { show: true, fontSize: 7 },
+                        label: { show: true, fontSize: 9 },
                         emphasis: { label: { fontSize: 9, fontWeight: "bold" }, itemStyle: { areaColor: "#fdba74" } },
                         data: data
                     }]
@@ -1766,6 +1941,12 @@
                 heatmapChart.on("click", function(params) {
                     if (params.name) drillDownToProvince(params.name, orders);
                 });
+                var zd = document.getElementById("zoomLevelDisplay");
+                if (zd) {
+                    if (zd.tagName === "INPUT") zd.value = Math.round(currentMapZoom * 100) + "%";
+                    else zd.textContent = Math.round(currentMapZoom * 100) + "%";
+                }
+                updateRankings(orders, "national");
             }
 
             async function drillDownToProvince(provinceName, orders) {
@@ -1796,8 +1977,10 @@
                 const container = document.getElementById("heatmapContainer");
                 if (heatmapChart) heatmapChart.dispose();
                 heatmapChart = echarts.init(container);
-                heatmapChart.setOption({
-                    title: { text: provinceName + " - 订单热力图", left: "center", textStyle: { fontSize: 16, fontWeight: 600, color: "#1e466e" } },
+                var mapBaseTitle = provinceName + " - 订单热力图";
+                    var mapTitle = heatmapFilter ? heatmapFilter.value + " - " + mapBaseTitle : mapBaseTitle;
+                    heatmapChart.setOption({
+                        title: { text: mapTitle, left: "center", textStyle: { fontSize: 16, fontWeight: 600, color: "#1e466e" } },
                     tooltip: {
                         trigger: "item",
                         formatter: function(p) {
@@ -1821,7 +2004,7 @@
                         map: provinceName,
                         roam: true,
                         selectedMode: false,
-                        label: { show: true, fontSize: 7 },
+                        label: { show: true, fontSize: 9 },
                         emphasis: { label: { fontSize: 9, fontWeight: "bold" }, itemStyle: { areaColor: "#fdba74" } },
                         data: data
                     }]
@@ -1830,136 +2013,444 @@
                 updateRankings(orders, "province", provinceName, provinceOrders);
             }
 
+            function updateMapZoom() {
+                if (!heatmapChart) return;
+                heatmapChart.setOption({
+                    series: [{ zoom: currentMapZoom }]
+                });
+                var zd = document.getElementById("zoomLevelDisplay");
+                if (zd) {
+                    if (zd.tagName === "INPUT") zd.value = Math.round(currentMapZoom * 100) + "%";
+                    else zd.textContent = Math.round(currentMapZoom * 100) + "%";
+                }
+            }
+
+            function mapZoomIn() {
+                currentMapZoom = Math.min(currentMapZoom * 1.2, 5);
+                updateMapZoom();
+            }
+            window.mapZoomIn = mapZoomIn;
+
+            function mapZoomOut() {
+                currentMapZoom = Math.max(currentMapZoom / 1.2, 0.5);
+                updateMapZoom();
+            }
+            window.mapZoomOut = mapZoomOut;
+
+            function setMapZoom(valStr) {
+                var pct = parseFloat(valStr);
+                if (isNaN(pct) || pct < 10) pct = 10;
+                if (pct > 1000) pct = 1000;
+                currentMapZoom = pct / 100;
+                if (heatmapChart) {
+                    heatmapChart.setOption({
+                        series: [{ zoom: currentMapZoom }]
+                    });
+                }
+                var inp = document.getElementById("zoomLevelDisplay");
+                if (inp) inp.value = Math.round(pct) + "%";
+            }
+            window.setMapZoom = setMapZoom;
+
             function backToNationalMap() {
+                heatmapFilter = null;
                 renderNationalMap(allOrdersForHeatmap);
                 updateRankings(allOrdersForHeatmap, "national");
             }
             window.backToNationalMap = backToNationalMap;
 
+            function getFilteredOrders() {
+                if (!heatmapFilter) return allOrdersForHeatmap;
+                if (heatmapFilter.type === "product") {
+                    var storeCodes = new Set();
+                    importedProducts.forEach(function(p) {
+                        if (p.productName === heatmapFilter.value && p.storeCode) storeCodes.add(p.storeCode);
+                    });
+                    return allOrdersForHeatmap.filter(function(o) { return o.storeCode && storeCodes.has(o.storeCode); });
+                }
+                if (heatmapFilter.type === "spec") {
+                    var storeCodes = new Set();
+                    importedProducts.forEach(function(p) {
+                        if (p.productSpec === heatmapFilter.value && p.storeCode) storeCodes.add(p.storeCode);
+                    });
+                    return allOrdersForHeatmap.filter(function(o) { return o.storeCode && storeCodes.has(o.storeCode); });
+                }
+                if (heatmapFilter.type === "store") {
+                    return allOrdersForHeatmap.filter(function(o) { return o.storeCode === heatmapFilter.value; });
+                }
+                return allOrdersForHeatmap;
+            }
+
             function updateRankings(orders, level, provinceName, provinceOrders) {
-                const r1 = document.getElementById("rankList1");
-                const r2 = document.getElementById("rankList2");
-                const r3 = document.getElementById("rankList3");
-                const t1 = document.getElementById("rankTitle1");
-                const t2 = document.getElementById("rankTitle2");
-                const t3 = document.getElementById("rankTitle3");
-                if (!r1 || !r2 || !r3) return;
+                lastRankingState = { orders, level, provinceName, provinceOrders };
+                productPage = 1;
+                renderCurrentRanking();
+            }
 
-                if (level === "national") {
-                    t1.innerHTML = "🏆 省份榜";
-                    t2.innerHTML = "🏪 门店榜（全国）";
+            function renderCurrentRanking() {
+                const state = lastRankingState;
+                if (!state.orders) return;
+                const { orders, level, provinceName, provinceOrders } = state;
+                const container = document.getElementById("rankListSingle");
+                const title = document.getElementById("rankTitleSingle");
+                if (!container || !title) return;
+                container.innerHTML = "";
 
-                    // Province top 5
-                    const provMap = new Map();
-                    orders.forEach(o => {
-                        let p = o.province;
-                        if (!p || p === "?" || p === "未知省份") return;
-                        const amt = parseFloat(o.amount) || 0;
-                        if (!provMap.has(p)) provMap.set(p, { amount: 0, count: 0 });
-                        const d = provMap.get(p);
-                        d.amount += amt; d.count++;
-                    });
-                    const provRank = Array.from(provMap.entries()).map(([n,d]) => ({name:n, amt:d.amount, cnt:d.count}))
-                        .sort((a,b) => b.amt - a.amt).slice(0,5);
-                    r1.innerHTML = provRank.map((item,i) =>
-                        `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${item.name}</span><span class="rank-val">¥${(item.amt/10000).toFixed(1)}万</span></div>`
-
-                    ).join("");
-                    // Product ranking (national)
-                    t3.innerHTML = "📦 商品榜（全国）";
-                    var prodMapN = new Map();
-                    importedProducts.forEach(function(p) {
-                        if (!p.productName) return;
-                        var a = p.amount || 0;
-                        if (!prodMapN.has(p.productName)) prodMapN.set(p.productName, { amount: 0, count: 0 });
-                        var d = prodMapN.get(p.productName);
-                        d.amount += a; d.count++;
-                    });
-                    var prodRankN = Array.from(prodMapN.entries()).map(function(e) { return {name:e[0], amt:e[1].amount, cnt:e[1].count}; }).sort(function(a,b) { return b.amt - a.amt; }).slice(0,5);
-                    if (prodRankN.length > 0) {
-                        r3.innerHTML = prodRankN.map(function(item,i) {
-                            var label = item.name.length > 18 ? item.name.substring(0, 16) + ".." : item.name;
-                            return '<div class="rank-item"><span class="rank-num">'+(i+1)+'</span><span class="rank-name" title="'+item.name+'">'+label+'</span><span class="rank-val">¥'+(item.amt/10000).toFixed(1)+'万</span></div>';
-                        }).join("");
+                if (currentRankingTab === "province") {
+                    if (level === "national") {
+                        title.innerHTML = "🏆 省份榜";
+                        const provMap = new Map();
+                        orders.forEach(o => {
+                            let p = o.province;
+                            if (!p || p === "?" || p === "未知省份") return;
+                            const amt = parseFloat(o.amount) || 0;
+                            if (!provMap.has(p)) provMap.set(p, { amount: 0, count: 0 });
+                            const d = provMap.get(p);
+                            d.amount += amt; d.count++;
+                        });
+                        const provRank = Array.from(provMap.entries()).map(([n,d]) => ({name:n, amt:d.amount, cnt:d.count}))
+                            .sort((a,b) => b.amt - a.amt).slice(0,5);
+                        container.innerHTML = provRank.map((item,i) =>
+                            `<div class="rank-item" onclick=\"heatmapClickProvince('${item.name.replace(/'/g, "\\'")}')\" style="cursor:pointer;"><span class="rank-num">${i+1}</span><span class="rank-name">${item.name}</span><span class="rank-val">¥${(item.amt/10000).toFixed(1)}万</span></div>`
+                        ).join("");
                     } else {
-                        r3.innerHTML = '<div style="padding:6px;font-size:0.8rem;color:#94a3b8;">暂无商品数据，请导入商品订单数据</div>';
+                        const po = provinceOrders || orders.filter(o => o.province === provinceName);
+                        title.innerHTML = "🏆 城市榜（"+provinceName+"）";
+                        const cityMap = new Map();
+                        po.forEach(o => {
+                            let c = o.city;
+                            if (!c || c === "?" || c === "未知城市") return;
+                            const amt = parseFloat(o.amount) || 0;
+                            if (!cityMap.has(c)) cityMap.set(c, { amount: 0, count: 0 });
+                            const d = cityMap.get(c);
+                            d.amount += amt; d.count++;
+                        });
+                        const cityRank = Array.from(cityMap.entries()).map(([n,d]) => ({name:n, amt:d.amount, cnt:d.count}))
+                            .sort((a,b) => b.amt - a.amt).slice(0,5);
+                        container.innerHTML = cityRank.map((item,i) =>
+                            `<div class="rank-item" onclick=\"heatmapClickProvince('${item.name.replace(/'/g, "\\'")}')\" style="cursor:pointer;"><span class="rank-num">${i+1}</span><span class="rank-name">${item.name}</span><span class="rank-val">¥${(item.amt/10000).toFixed(1)}万</span></div>`
+                        ).join("");
                     }
-
-                    // Store top 5 national
-                    const storeMap = new Map();
-                    orders.forEach(o => {
-                        const code = o.storeCode;
-                        if (!code) return;
-                        const amt = parseFloat(o.amount) || 0;
-                        if (!storeMap.has(code)) storeMap.set(code, { name: o.storeName || code, city: o.city || "", province: o.province || "", amount: 0 });
-                        storeMap.get(code).amount += amt;
-                    });
-                    const storeRank = Array.from(storeMap.entries()).map(([c,d]) => ({code:c, name:d.name, city:d.city, prov:d.province, amt:d.amount}))
-                        .sort((a,b) => b.amt - a.amt).slice(0,5);
-                    r2.innerHTML = storeRank.map((item,i) =>
-                        `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${item.name}</span><span class="rank-val">¥${(item.amt/10000).toFixed(1)}万</span></div>`
-                    ).join("");
-
-                } else {
-                    const po = provinceOrders || orders.filter(o => o.province === provinceName);
-                    t1.innerHTML = "🏆 城市榜（"+provinceName+"）";
-                    t2.innerHTML = "🏪 门店榜（"+provinceName+"）";
-
-                    // City top 5
-                    const cityMap = new Map();
-                    po.forEach(o => {
-                        let c = o.city;
-                        if (!c || c === "?" || c === "未知城市") return;
-                        const amt = parseFloat(o.amount) || 0;
-                        if (!cityMap.has(c)) cityMap.set(c, { amount: 0, count: 0 });
-                        const d = cityMap.get(c);
-                        d.amount += amt; d.count++;
-                    });
-                    const cityRank = Array.from(cityMap.entries()).map(([n,d]) => ({name:n, amt:d.amount, cnt:d.count}))
-                        .sort((a,b) => b.amt - a.amt).slice(0,5);
-                    r1.innerHTML = cityRank.map((item,i) =>
-                        `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${item.name}</span><span class="rank-val">¥${(item.amt/10000).toFixed(1)}万</span></div>`
-                    ).join("");
-
-                    // Store top 5 in province
-                    const storeMap = new Map();
-                    po.forEach(o => {
-                        const code = o.storeCode;
-                        if (!code) return;
-                        const amt = parseFloat(o.amount) || 0;
-                        if (!storeMap.has(code)) storeMap.set(code, { name: o.storeName || code, city: o.city || "", amount: 0 });
-                        storeMap.get(code).amount += amt;
-                    });
-                    const storeRank = Array.from(storeMap.entries()).map(([c,d]) => ({code:c, name:d.name, city:d.city, amt:d.amount}))
-                        .sort((a,b) => b.amt - a.amt).slice(0,5);
-                    r2.innerHTML = storeRank.map((item,i) =>
-                        `<div class="rank-item"><span class="rank-num">${i+1}</span><span class="rank-name">${item.name}</span><span class="rank-sub">${item.city}</span><span class="rank-val">¥${(item.amt/10000).toFixed(1)}万</span></div>`
-
-                    ).join("");
-                    // Product ranking (province)
-                    t3.innerHTML = "📦 商品榜（"+provinceName+"）";
-                    var prodMapP = new Map();
-                    importedProducts.forEach(function(p) {
-                        if (!p.productName) return;
-                        if (!p.storeCode || !importedStoreMap || !importedStoreMap.has(p.storeCode)) return;
-                        var ps = importedStoreMap.get(p.storeCode);
-                        if (ps.province !== provinceName) return;
-                        var a = p.amount || 0;
-                        if (!prodMapP.has(p.productName)) prodMapP.set(p.productName, { amount: 0, count: 0 });
-                        var d = prodMapP.get(p.productName);
-                        d.amount += a; d.count++;
-                    });
-                    var prodRankP = Array.from(prodMapP.entries()).map(function(e) { return {name:e[0], amt:e[1].amount, cnt:e[1].count}; }).sort(function(a,b) { return b.amt - a.amt; }).slice(0,5);
-                    if (prodRankP.length > 0) {
-                        r3.innerHTML = prodRankP.map(function(item,i) {
-                            var label = item.name.length > 18 ? item.name.substring(0, 16) + ".." : item.name;
-                            return '<div class="rank-item"><span class="rank-num">'+(i+1)+'</span><span class="rank-name" title="'+item.name+'">'+label+'</span><span class="rank-val">¥'+(item.amt/10000).toFixed(1)+'万</span></div>';
-                        }).join("");
+                } else if (currentRankingTab === "store") {
+                    if (level === "national") {
+                        title.innerHTML = "🏪 门店榜（全国）";
+                        const storeMap = new Map();
+                        orders.forEach(o => {
+                            const code = o.storeCode;
+                            if (!code) return;
+                            const amt = parseFloat(o.amount) || 0;
+                            if (!storeMap.has(code)) storeMap.set(code, { name: o.storeName || code, city: o.city || "", province: o.province || "", amount: 0 });
+                            storeMap.get(code).amount += amt;
+                        });
+                        const storeRank = Array.from(storeMap.entries()).map(([c,d]) => ({code:c, name:d.name, city:d.city, prov:d.province, amt:d.amount}))
+                            .sort((a,b) => b.amt - a.amt).slice(0,5);
+                        container.innerHTML = storeRank.map((item,i) =>
+                            `<div class="rank-item" onclick=\"heatmapClickStore('${item.code.replace(/'/g, "\\'")}')\" style="cursor:pointer;"><span class="rank-num">${i+1}</span><span class="rank-name">${item.name}</span><span class="rank-val">¥${(item.amt/10000).toFixed(1)}万</span></div>`
+                        ).join("");
                     } else {
-                        r3.innerHTML = '<div style="padding:6px;font-size:0.8rem;color:#94a3b8;">暂无商品数据</div>';
+                        const po = provinceOrders || orders.filter(o => o.province === provinceName);
+                        title.innerHTML = "🏪 门店榜（"+provinceName+"）";
+                        const storeMap = new Map();
+                        po.forEach(o => {
+                            const code = o.storeCode;
+                            if (!code) return;
+                            const amt = parseFloat(o.amount) || 0;
+                            if (!storeMap.has(code)) storeMap.set(code, { name: o.storeName || code, city: o.city || "", amount: 0 });
+                            storeMap.get(code).amount += amt;
+                        });
+                        const storeRank = Array.from(storeMap.entries()).map(([c,d]) => ({code:c, name:d.name, city:d.city, amt:d.amount}))
+                            .sort((a,b) => b.amt - a.amt).slice(0,5);
+                        container.innerHTML = storeRank.map((item,i) =>
+                            `<div class="rank-item" onclick=\"heatmapClickStore('${item.code.replace(/'/g, "\\'")}')\" style="cursor:pointer;"><span class="rank-num">${i+1}</span><span class="rank-name">${item.name}</span><span class="rank-sub">${item.city}</span><span class="rank-val">¥${(item.amt/10000).toFixed(1)}万</span></div>`
+                        ).join("");
+                    }
+                } else if (currentRankingTab === "product") {
+                    if (level === "national") {
+                        title.innerHTML = '📦 商品榜（全国）<span class="product-filter-btns"><button class="filter-btn active" data-filter="all" onclick="setProductFilter(\'all\')">全部</button><button class="filter-btn" data-filter="xijiu" onclick="setProductFilter(\'xijiu\')">习酒</button><button class="filter-btn" data-filter="nonxijiu" onclick="setProductFilter(\'nonxijiu\')">非习酒</button></span>';
+                        var filteredProducts = importedProducts;
+                        if (productFilter === "xijiu") {
+                            filteredProducts = importedProducts.filter(function(p) {
+                                return p.productName && (p.productName.indexOf("习酒") >= 0 || p.productName.indexOf("知交") >= 0 || p.productName.indexOf("習酒") >= 0);
+                            });
+                        } else if (productFilter === "nonxijiu") {
+                            filteredProducts = importedProducts.filter(function(p) {
+                                return !p.productName || !(p.productName.indexOf("习酒") >= 0 || p.productName.indexOf("知交") >= 0 || p.productName.indexOf("習酒") >= 0);
+                            });
+                        }
+                        var prodMap = new Map();
+                        filteredProducts.forEach(function(p) {
+                            if (!p.productName) return;
+                            var a = p.amount || 0;
+                            if (!prodMap.has(p.productName)) prodMap.set(p.productName, { amount: 0, count: 0 });
+                            var d = prodMap.get(p.productName);
+                            d.amount += a; d.count++;
+                        });
+                        var prodRank = Array.from(prodMap.entries()).map(function(e) { return {name:e[0], amt:e[1].amount, cnt:e[1].count}; }).sort(function(a,b) { return b.cnt - a.cnt; });
+                        var prodTotalPages = Math.ceil(prodRank.length / 8) || 1;
+                        if (productPage > prodTotalPages) productPage = 1;
+                        var pageStart = (productPage - 1) * 8;
+                        var pageEnd = pageStart + 8;
+                        var pageItems = prodRank.slice(pageStart, pageEnd);
+                        if (prodRank.length > 0) {
+                            var pageHtml = pageItems.map(function(item,i) {
+                                var rankNum = pageStart + i + 1;
+                                var safeName = item.name.replace(/'/g, "\\'");
+                                return '<div class="rank-item" onclick="heatmapClickProduct(\''+safeName+'\')" style="cursor:pointer;"><span class="rank-num">'+rankNum+'</span><span class="rank-name" title="'+item.name+'">'+item.name+'</span><span class="rank-val">'+(item.cnt||0)+'单 ¥'+(item.amt/10000).toFixed(1)+'万</span></div>';
+                            }).join("");
+                            var paginationHtml = '<div class="pagination-bar"><button class="page-btn" onclick="productPrevPage()">‹</button><input class="page-input" id="productPageInput" value="'+productPage+'" onchange="productGoToPage(this.value)"><span class="page-total">/ '+prodTotalPages+' 页</span><button class="page-btn" onclick="productNextPage()">›</button></div>';
+                            var cityChartOrders = orders;
+                            if (productFilter === "xijiu") {
+                                var xjStoreCodes = new Set();
+                                importedProducts.forEach(function(pp) {
+                                    if (pp.productName && (pp.productName.indexOf("习酒") >= 0 || pp.productName.indexOf("知交") >= 0 || pp.productName.indexOf("習酒") >= 0) && pp.storeCode) xjStoreCodes.add(pp.storeCode);
+                                });
+                                cityChartOrders = orders.filter(function(o) { return o.storeCode && xjStoreCodes.has(o.storeCode); });
+                            } else if (productFilter === "nonxijiu") {
+                                var xjStoreCodes = new Set();
+                                importedProducts.forEach(function(pp) {
+                                    if (pp.productName && (pp.productName.indexOf("习酒") >= 0 || pp.productName.indexOf("知交") >= 0 || pp.productName.indexOf("習酒") >= 0) && pp.storeCode) xjStoreCodes.add(pp.storeCode);
+                                });
+                                cityChartOrders = orders.filter(function(o) { return !o.storeCode || !xjStoreCodes.has(o.storeCode); });
+                            }
+                            var cityHtml = buildCityChartHtml(cityChartOrders);
+                            container.innerHTML = pageHtml + paginationHtml + cityHtml;
+                        } else {
+                            container.innerHTML = '<div style="padding:6px;font-size:0.8rem;color:#94a3b8;">暂无商品数据，请导入商品订单数据</div>';
+                        }
+                    } else {
+                        const po = provinceOrders || orders.filter(o => o.province === provinceName);
+                        title.innerHTML = '📦 商品榜（'+provinceName+'）<span class="product-filter-btns"><button class="filter-btn active" data-filter="all" onclick="setProductFilter(\'all\')">全部</button><button class="filter-btn" data-filter="xijiu" onclick="setProductFilter(\'xijiu\')">习酒</button><button class="filter-btn" data-filter="nonxijiu" onclick="setProductFilter(\'nonxijiu\')">非习酒</button></span>';
+                        var filteredProducts = importedProducts;
+                        if (productFilter === "xijiu") {
+                            filteredProducts = importedProducts.filter(function(p) {
+                                return p.productName && (p.productName.indexOf("习酒") >= 0 || p.productName.indexOf("知交") >= 0 || p.productName.indexOf("習酒") >= 0);
+                            });
+                        } else if (productFilter === "nonxijiu") {
+                            filteredProducts = importedProducts.filter(function(p) {
+                                return !p.productName || !(p.productName.indexOf("习酒") >= 0 || p.productName.indexOf("知交") >= 0 || p.productName.indexOf("習酒") >= 0);
+                            });
+                        }
+                        var prodMap = new Map();
+                        filteredProducts.forEach(function(p) {
+                            if (!p.productName) return;
+                            if (!p.storeCode || !importedStoreMap || !importedStoreMap.has(p.storeCode)) return;
+                            var ps = importedStoreMap.get(p.storeCode);
+                            if (ps.province !== provinceName) return;
+                            var a = p.amount || 0;
+                            if (!prodMap.has(p.productName)) prodMap.set(p.productName, { amount: 0, count: 0 });
+                            var d = prodMap.get(p.productName);
+                            d.amount += a; d.count++;
+                        });
+                        var prodRank = Array.from(prodMap.entries()).map(function(e) { return {name:e[0], amt:e[1].amount, cnt:e[1].count}; }).sort(function(a,b) { return b.cnt - a.cnt; });
+                        var prodTotalPages = Math.ceil(prodRank.length / 8) || 1;
+                        if (productPage > prodTotalPages) productPage = 1;
+                        var pageStart = (productPage - 1) * 8;
+                        var pageEnd = pageStart + 8;
+                        var pageItems = prodRank.slice(pageStart, pageEnd);
+                        if (prodRank.length > 0) {
+                            var pageHtml = pageItems.map(function(item,i) {
+                                var rankNum = pageStart + i + 1;
+                                var safeName = item.name.replace(/'/g, "\\'");
+                                return '<div class="rank-item" onclick="heatmapClickProduct(\''+safeName+'\')" style="cursor:pointer;"><span class="rank-num">'+rankNum+'</span><span class="rank-name" title="'+item.name+'">'+item.name+'</span><span class="rank-val">'+(item.cnt||0)+'单 ¥'+(item.amt/10000).toFixed(1)+'万</span></div>';
+                            }).join("");
+                            var paginationHtml = '<div class="pagination-bar"><button class="page-btn" onclick="productPrevPage()">‹</button><input class="page-input" id="productPageInput" value="'+productPage+'" onchange="productGoToPage(this.value)"><span class="page-total">/ '+prodTotalPages+' 页</span><button class="page-btn" onclick="productNextPage()">›</button></div>';
+                            var cityOrders = provinceOrders || orders.filter(function(o) { return o.province === provinceName; });
+                            var cityChartOrders = cityOrders;
+                            if (productFilter === "xijiu") {
+                                var xjStoreCodes = new Set();
+                                importedProducts.forEach(function(pp) {
+                                    if (pp.productName && (pp.productName.indexOf("习酒") >= 0 || pp.productName.indexOf("知交") >= 0 || pp.productName.indexOf("習酒") >= 0) && pp.storeCode) xjStoreCodes.add(pp.storeCode);
+                                });
+                                cityChartOrders = cityOrders.filter(function(o) { return o.storeCode && xjStoreCodes.has(o.storeCode); });
+                            } else if (productFilter === "nonxijiu") {
+                                var xjStoreCodes = new Set();
+                                importedProducts.forEach(function(pp) {
+                                    if (pp.productName && (pp.productName.indexOf("习酒") >= 0 || pp.productName.indexOf("知交") >= 0 || pp.productName.indexOf("習酒") >= 0) && pp.storeCode) xjStoreCodes.add(pp.storeCode);
+                                });
+                                cityChartOrders = cityOrders.filter(function(o) { return !o.storeCode || !xjStoreCodes.has(o.storeCode); });
+                            }
+                            var cityHtml = buildCityChartHtml(cityChartOrders);
+                            container.innerHTML = pageHtml + paginationHtml + cityHtml;
+                        } else {
+                            container.innerHTML = '<div style="padding:6px;font-size:0.8rem;color:#94a3b8;">暂无商品数据</div>';
+                        }
+                    }
+                } else if (currentRankingTab === "spec") {
+                    if (level === "national") {
+                        title.innerHTML = "📋 规格榜（全国）";
+                        var specMap = new Map();
+                        var specHasData = false;
+                        importedProducts.forEach(function(p) {
+                            if (!p.productSpec) return;
+                            specHasData = true;
+                            var a = p.amount || 0;
+                            if (!specMap.has(p.productSpec)) specMap.set(p.productSpec, { amount: 0, count: 0 });
+                            var d = specMap.get(p.productSpec);
+                            d.amount += a; d.count++;
+                        });
+                        if (specHasData) {
+                            var totalCount = 0, totalAmount = 0;
+                            specMap.forEach(function(v) { totalCount += v.count; totalAmount += v.amount; });
+                            var specRank = Array.from(specMap.entries()).map(function(e) { return {name:e[0], amt:e[1].amount, cnt:e[1].count}; }).sort(function(a,b) { return b.amt - a.amt; }).slice(0,5);
+                            container.innerHTML = specRank.map(function(item,i) {
+                                var cntPct = totalCount > 0 ? ((item.cnt / totalCount) * 100).toFixed(1) : "0.0";
+                                var amtPct = totalAmount > 0 ? ((item.amt / totalAmount) * 100).toFixed(1) : "0.0";
+                                var label = item.name.length > 18 ? item.name.substring(0, 16) + ".." : item.name;
+                                var safeName = item.name.replace(/'/g, "\\'");
+                                return '<div class="rank-item" style="flex-direction:column;align-items:stretch;gap:1px;padding:4px 6px;cursor:pointer;" onclick="heatmapClickSpec(\''+safeName+'\')">'
+                                    + '<div style="display:flex;align-items:center;gap:6px;width:100%;">'
+                                    + '<span class="rank-num">' + (i+1) + '</span>'
+                                    + '<span class="rank-name" title="' + item.name + '">' + label + '</span>'
+                                    + '</div>'
+                                    + '<div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#475569;padding-left:26px;">'
+                                    + '<span>📊' + item.cnt + '单(' + cntPct + '%)</span>'
+                                    + '<span>¥' + (item.amt/10000).toFixed(1) + '万(' + amtPct + '%)</span>'
+                                    + '</div></div>';
+                            }).join("");
+                        } else {
+                            container.innerHTML = '<div style="padding:6px;font-size:0.8rem;color:#94a3b8;">暂无规格数据</div>';
+                        }
+                    } else {
+                        const po = provinceOrders || orders.filter(o => o.province === provinceName);
+                        title.innerHTML = "📋 规格榜（"+provinceName+"）";
+                        var specMap = new Map();
+                        var specHasData = false;
+                        importedProducts.forEach(function(p) {
+                            if (!p.productSpec) return;
+                            if (!p.storeCode || !importedStoreMap || !importedStoreMap.has(p.storeCode)) return;
+                            var ps = importedStoreMap.get(p.storeCode);
+                            if (ps.province !== provinceName) return;
+                            specHasData = true;
+                            var a = p.amount || 0;
+                            if (!specMap.has(p.productSpec)) specMap.set(p.productSpec, { amount: 0, count: 0 });
+                            var d = specMap.get(p.productSpec);
+                            d.amount += a; d.count++;
+                        });
+                        if (specHasData) {
+                            var totalCount = 0, totalAmount = 0;
+                            specMap.forEach(function(v) { totalCount += v.count; totalAmount += v.amount; });
+                            var specRank = Array.from(specMap.entries()).map(function(e) { return {name:e[0], amt:e[1].amount, cnt:e[1].count}; }).sort(function(a,b) { return b.amt - a.amt; }).slice(0,5);
+                            container.innerHTML = specRank.map(function(item,i) {
+                                var cntPct = totalCount > 0 ? ((item.cnt / totalCount) * 100).toFixed(1) : "0.0";
+                                var amtPct = totalAmount > 0 ? ((item.amt / totalAmount) * 100).toFixed(1) : "0.0";
+                                var label = item.name.length > 18 ? item.name.substring(0, 16) + ".." : item.name;
+                                var safeName = item.name.replace(/'/g, "\\'");
+                                return '<div class="rank-item" style="flex-direction:column;align-items:stretch;gap:1px;padding:4px 6px;cursor:pointer;" onclick="heatmapClickSpec(\''+safeName+'\')">'
+                                    + '<div style="display:flex;align-items:center;gap:6px;width:100%;">'
+                                    + '<span class="rank-num">' + (i+1) + '</span>'
+                                    + '<span class="rank-name" title="' + item.name + '">' + label + '</span>'
+                                    + '</div>'
+                                    + '<div style="display:flex;justify-content:space-between;font-size:0.7rem;color:#475569;padding-left:26px;">'
+                                    + '<span>📊' + item.cnt + '单(' + cntPct + '%)</span>'
+                                    + '<span>¥' + (item.amt/10000).toFixed(1) + '万(' + amtPct + '%)</span>'
+                                    + '</div></div>';
+                            }).join("");
+                        } else {
+                            container.innerHTML = '<div style="padding:6px;font-size:0.8rem;color:#94a3b8;">暂无规格数据</div>';
+                        }
                     }
                 }
             }
+
+            function heatmapClickProvince(name) {
+                if (currentMapLevel === "national") {
+                    var fo = getFilteredOrders();
+                    drillDownToProvince(name, fo);
+                }
+            }
+            window.heatmapClickProvince = heatmapClickProvince;
+
+            function heatmapClickStore(storeCode) {
+                heatmapFilter = {type: "store", value: storeCode};
+                document.getElementById("backToNationalBtn").style.display = "inline-block";
+                if (currentMapLevel === "national") {
+                    renderNationalMap(getFilteredOrders());
+                } else {
+                    drillDownToProvince(currentMapProvince, getFilteredOrders());
+                }
+            }
+            window.heatmapClickStore = heatmapClickStore;
+
+            function heatmapClickProduct(productName) {
+                heatmapFilter = {type: "product", value: productName};
+                document.getElementById("backToNationalBtn").style.display = "inline-block";
+                if (currentMapLevel === "national") {
+                    renderNationalMap(getFilteredOrders());
+                } else {
+                    drillDownToProvince(currentMapProvince, getFilteredOrders());
+                }
+            }
+            window.heatmapClickProduct = heatmapClickProduct;
+
+            function heatmapClickSpec(specName) {
+                heatmapFilter = {type: "spec", value: specName};
+                document.getElementById("backToNationalBtn").style.display = "inline-block";
+                if (currentMapLevel === "national") {
+                    renderNationalMap(getFilteredOrders());
+                } else {
+                    drillDownToProvince(currentMapProvince, getFilteredOrders());
+                }
+            }
+            window.heatmapClickSpec = heatmapClickSpec;
+
+            function setProductFilter(type) {
+                productFilter = type;
+                productPage = 1;
+                var allBtns = document.querySelectorAll('.product-filter-btns .filter-btn');
+                allBtns.forEach(function(b) { b.classList.remove('active'); });
+                var activeBtns = document.querySelectorAll('.product-filter-btns .filter-btn[data-filter="'+type+'"]');
+                activeBtns.forEach(function(b) { b.classList.add('active'); });
+                renderCurrentRanking();
+            }
+            window.setProductFilter = setProductFilter;
+
+            function buildCityChartHtml(orders) {
+                if (!orders || orders.length === 0) return "";
+                var cityMap = new Map();
+                orders.forEach(function(o) {
+                    var city = o.city;
+                    if (!city || city === "?" || city === "未知城市") return;
+                    if (!cityMap.has(city)) cityMap.set(city, 0);
+                    cityMap.set(city, cityMap.get(city) + 1);
+                });
+                var cityRank = Array.from(cityMap.entries()).map(function(e) { return {name:e[0], cnt:e[1]}; }).sort(function(a,b) { return b.cnt - a.cnt; }).slice(0,10);
+                if (cityRank.length === 0) return "";
+                var maxCnt = cityRank[0].cnt;
+                var html = '<div class="city-chart"><div class="city-chart-title">城市订单排行</div>';
+                cityRank.forEach(function(c) {
+                    var pct = (c.cnt / maxCnt * 100).toFixed(0);
+                    var safeName = c.name.replace(/'/g, "\\'");
+                    html += '<div class="city-bar-row"><span class="city-bar-name" title="'+safeName+'">'+c.name+'</span><div class="city-bar-track"><div class="city-bar-fill" style="width:'+pct+'%"></div></div><span class="city-bar-val">'+c.cnt+'单</span></div>';
+                });
+                html += '</div>';
+                return html;
+            }
+
+            function switchRankingTab(type) {
+                currentRankingTab = type;
+                productFilter = "all";
+                document.getElementById('rankSelect').value = type;
+                renderCurrentRanking();
+            }
+            window.switchRankingTab = switchRankingTab;
+
+            function productGoToPage(p) {
+                var page = parseInt(p) || 1;
+                if (page < 1) page = 1;
+                productPage = page;
+                renderCurrentRanking();
+            }
+            window.productGoToPage = productGoToPage;
+
+            function productPrevPage() {
+                productGoToPage(productPage - 1);
+            }
+            window.productPrevPage = productPrevPage;
+
+            function productNextPage() {
+                productGoToPage(productPage + 1);
+            }
+            window.productNextPage = productNextPage;
 
             function showProvinceRanking() {
                 const filtered = filterOrdersByProvince(currentSelectedProvince);
@@ -2598,6 +3089,7 @@
                         const nameCol = hd.findIndex(function(h) { return h === '商品名称' || h.includes('商品名称'); });
                         const priceCol = hd.findIndex(function(h) { return h === '商品售价' || h.includes('商品售价'); });
                         const qtyCol = hd.findIndex(function(h) { return h === '商品数量' || h.includes('商品数量'); });
+                        const specCol = hd.findIndex(function(h) { return h === '商品规格' || h.includes('规格'); });
                         if (nameCol === -1) { alert("未找到商品名称列"); return; }
                         const products = [];
                         let parsed = 0;
@@ -2610,7 +3102,8 @@
                             var price = (priceCol > -1) ? parseFloat(row[priceCol]) || 0 : 0;
                             var qty = (qtyCol > -1) ? parseFloat(row[qtyCol]) || 1 : 1;
                             var amount = price * qty;
-                            products.push({ storeCode: storeCode, productName: pName, amount: amount });
+                            var spec = (specCol > -1 && row[specCol]) ? String(row[specCol]).trim() : '';
+                            products.push({ storeCode: storeCode, productName: pName, amount: amount, productSpec: spec });
                             parsed++;
                         }
                         importedProducts = products;
